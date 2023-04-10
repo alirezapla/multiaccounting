@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,11 +11,9 @@ import java.util.UUID;
 @Table(name = "user")
 public class User {
 
+
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
-    private UUID id;
+    private String id;
 
     @Column(name = "username")
     private String username;
@@ -24,7 +22,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Account> accounts;
 
     public User() {
@@ -32,11 +31,12 @@ public class User {
     }
 
     public User(String username, String password) {
+        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
@@ -61,15 +61,14 @@ public class User {
         return accounts;
     }
 
-    public void setAccounts(String password) {
-        this.password = password;
+    public void addAccounts(Account account) {
+        this.accounts.add(account);
     }
-
 
 
     @Override
     public String toString() {
-        return "Tutorial [id=" + id + ", username=" + username + ", password=" + password  + "]";
+        return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
     }
 
 }
