@@ -6,12 +6,12 @@ The Multiaccounting project is a Spring-based application designed to manage mul
 
 Build the Project
 
-bash
-
+```bash
 ./mvnw clean install
+```
 
 Run the Application
 
-bash
-
+```bash
 ./mvnw spring-boot:run
+```
